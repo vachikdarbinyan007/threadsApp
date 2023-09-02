@@ -4,6 +4,7 @@
 
 // Resource: https://docs.svix.com/receiving/verifying-payloads/why
 // It's a good practice to verify webhooks. Above article shows why we should do it
+console.log("dddddddddddddddddddddddddddddddddddddddddddddddd")
 import { Webhook, WebhookRequiredHeaders } from "svix";
 import { headers } from "next/headers";
 
@@ -84,7 +85,7 @@ export const POST = async (request: Request) => {
     } catch (err) {
       console.log(err);
       return NextResponse.json(
-        { message: "Internal Server Error" },
+        { message: "Internal Server Error 1" },
         { status: 500 }
       );
     }
@@ -106,7 +107,7 @@ export const POST = async (request: Request) => {
       console.log(err);
 
       return NextResponse.json(
-        { message: "Internal Server Error" },
+        { message: "Internal Server Error 2" },
         { status: 500 }
       );
     }
@@ -131,7 +132,7 @@ export const POST = async (request: Request) => {
       console.log(err);
 
       return NextResponse.json(
-        { message: "Internal Server Error" },
+        { message: "Internal Server Error 3 " },
         { status: 500 }
       );
     }
@@ -153,7 +154,7 @@ export const POST = async (request: Request) => {
       console.log(err);
 
       return NextResponse.json(
-        { message: "Internal Server Error" },
+        { message: "Internal Server Error 4" },
         { status: 500 }
       );
     }
@@ -175,7 +176,7 @@ export const POST = async (request: Request) => {
       console.log(err);
 
       return NextResponse.json(
-        { message: "Internal Server Error" },
+        { message: "Internal Server Error 5" },
         { status: 500 }
       );
     }
@@ -200,7 +201,7 @@ export const POST = async (request: Request) => {
       console.log(err);
 
       return NextResponse.json(
-        { message: "Internal Server Error" },
+        { message: "Internal Server Error 6" },
         { status: 500 }
       );
     }

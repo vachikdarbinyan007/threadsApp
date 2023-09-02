@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import * as z from "zod";
-import { usePathname,useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 // import { updateUser } from "@/lib/actions/user.actions";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
-
+import { useOrganization } from "@clerk/nextjs";
 
 interface AccountProfileProps {
   user: {
@@ -34,28 +34,33 @@ interface AccountProfileProps {
   btnTitle: string;
 }
 
-
-function PostThread({userId}:{userId:string}){
-    const router = useRouter()
-    const pathname = usePathname()
-    const form = useForm({
-      resolver: zodResolver(ThreadValidation),
-      defaultValues: {
-       thread:"",
-       accountId:userId
-      },
+function PostThread({ userId }: { userId: string }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { organization } = useOrganization();
+  const form = useForm({
+    resolver: zodResolver(ThreadValidation),
+    defaultValues: {
+      thread: "",
+      accountId: userId,
+    },
+  });
+  async function onSubmit(values: z.infer<typeof ThreadValidation>) {
+    await createThread({
+      text: values.thread,
+      author: userId,
+      communityId: organization ? organization.id : null,
+      path: pathname,
     });
-    async function onSubmit(values:z.infer<typeof ThreadValidation>){
-         await createThread({text:values.thread,author:userId,communityId:null,path:pathname})
-        router.push("/")
-        }
-    return (
-        <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="mt-10 flex flex-col justify-start gap-10 "
-        >
-         <FormField
+    router.push("/");
+  }
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="mt-10 flex flex-col justify-start gap-10 "
+      >
+        <FormField
           control={form.control}
           name="thread"
           render={({ field }) => (
@@ -64,19 +69,18 @@ function PostThread({userId}:{userId:string}){
                 Content
               </FormLabel>
               <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-                <Textarea
-                  rows={15}
-                  {...field}
-                />
+                <Textarea rows={15} {...field} />
               </FormControl>
-              <FormMessage/>
+              <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-primary-500">Post Thread</Button>
-        </form>
-        </Form>
-    )
+        <Button type="submit" className="bg-primary-500">
+          Post Thread
+        </Button>
+      </form>
+    </Form>
+  );
 }
 
-export default PostThread
+export default PostThread;
