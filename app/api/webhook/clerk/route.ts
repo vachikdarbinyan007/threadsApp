@@ -4,7 +4,6 @@
 
 // Resource: https://docs.svix.com/receiving/verifying-payloads/why
 // It's a good practice to verify webhooks. Above article shows why we should do it
-console.log("dddddddddddddddddddddddddddddddddddddddddddddddd")
 import { Webhook, WebhookRequiredHeaders } from "svix";
 import { headers } from "next/headers";
 
@@ -36,6 +35,7 @@ type Event = {
 };
 
 export const POST = async (request: Request) => {
+  console.log("REQUEST",request)
   const payload = await request.json();
   const header = headers();
 
